@@ -1,11 +1,15 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Container } from "./styles";
+import ContentHeader from "../ContentHeader";
 
-const Content : React.FC = () => {
+interface ContentProps {
+    children: ReactNode;
+}
+
+const Content: React.FC<ContentProps> = ({ children }) => {
     return (
         <Container>
-            <h2>Content Component</h2>
-            <p>This is a placeholder for the Content component.</p>
+            {children}
         </Container>
     );
 }

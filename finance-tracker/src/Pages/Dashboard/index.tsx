@@ -1,12 +1,12 @@
 import React from "react";
+import ContentHeader from "../../components/ContentHeader";
+import { Container } from "./style";
 
 const Dashboard: React.FC = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome to your finance tracker dashboard!</p>
-      {/* Add more components or features here */}
-    </div>
+    <Container>
+      <ContentHeader />
+    </Container>
   );
 }
 export default Dashboard;
