@@ -31,7 +31,7 @@ const Aside: React.FC = () => {
             </Header>
 
             <MenuContainer>
-                <MenuItemLink href="#" activecolor={theme.colors.dashboard}>
+                <MenuItemLink href="/dashboard" activecolor={theme.colors.dashboard}>
                     <MdDashboard />
                     Dashboard
                 </MenuItemLink>
@@ -39,11 +39,11 @@ const Aside: React.FC = () => {
                     <MdAccountBalanceWallet />
                     Transactions
                 </MenuItemLink>
-                <MenuItemLink href="#"  activecolor={theme.colors.secondary}>
+                <MenuItemLink href="/list/income"  activecolor={theme.colors.secondary}>
                     <MdPayment />
                     Income
                 </MenuItemLink>
-                <MenuItemLink href="#" activecolor={theme.colors.primary}>
+                <MenuItemLink href="/list/expenses" activecolor={theme.colors.primary}>
                     <MdReceipt />
                     Expenses
                 </MenuItemLink>
