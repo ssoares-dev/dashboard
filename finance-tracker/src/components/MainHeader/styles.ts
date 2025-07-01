@@ -18,7 +18,6 @@ export const Profile = styled.div`
 export const Welcome = styled.div`
   margin-right: 10px;
   font-weight: bold;
-  
 `;
 
 export const Username = styled.span`
@@ -34,9 +33,6 @@ export const Emoji = styled.img`
 
 export const WelcomeWrapper = styled.div`
   display: flex;
-  flex-direction: row ;
+  flex-direction: row;
   align-items: end;
 `;
-
-
-

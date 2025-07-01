@@ -1,8 +1,9 @@
 import React from "react";
-import {ThemeProvider} from "styled-components";
-import GlobalStyles from "./styles/GlobalStyles";
+import { ThemeProvider } from "styled-components";
 import Routes from "./routes";
 
+
+import GlobalStyles from "./styles/GlobalStyles";
 import dark from "./styles/themes/dark";
 import light from "./styles/themes/light";
 
@@ -11,8 +12,7 @@ const App: React.FC = () => {
     <ThemeProvider theme={dark}>
       <GlobalStyles />
       <Routes />
-      </ThemeProvider>
-
+    </ThemeProvider>
   );
 };
 export default App;

@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const Container = styled.div``;
 
-export const Content = styled.div`
+export const Content = styled.main`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 export const Filters = styled.div`
@@ -14,7 +14,10 @@ export const Filters = styled.div`
   flex-direction: row;
 `;
 
-export const FiltersButton = styled.button<{ filterType: string }>`
+export const FiltersButton = styled.button<{
+  filterType: string;
+  selected: boolean;
+}>`
   background-color: transparent;
   color: ${(props) => props.theme.colors.white};
   font-size: 18px;
@@ -24,6 +27,7 @@ export const FiltersButton = styled.button<{ filterType: string }>`
   cursor: pointer;
 
   transition: opacity 0.3s;
+  opacity: ${(props) => (props.selected ? 0.4 : 1)};
 
   &:hover {
     opacity: 0.7;
