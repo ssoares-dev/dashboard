@@ -1,7 +1,6 @@
 export default [
-  {"description":"Energia elétrica",      "amount":"150.55","type":"expenses","frequency":"frequently","date":"2025-01-10"},
   {"description":"Água",                  "amount":"75.55", "type":"expenses","frequency":"frequently","date":"2025-01-15"},
-  {"description": "Telefone",             "amount":"99.99", "type":"expenses","frequency":"frequently","date":"2025-01-23"},
+  {"description": "Telefone",             "amount":"157.92", "type":"expenses","frequency":"frequently","date":"2025-01-23"},
   {"description":"Plano de Saúde",        "amount":"300.00","type":"expenses","frequency":"frequently","date":"2025-01-23"},
   {"description":"Compras do mês",        "amount":"625.78","type":"expenses","frequency":"frequently","date":"2025-01-23"},
   {"description":"Lanche",                "amount":"45.70", "type":"expenses","frequency":"occasionally",  "date":"2025-01-23"},
@@ -46,7 +45,6 @@ export default [
   {"description":"Telefone",              "amount":"9.99", "type":"expenses","frequency":"frequently","date":"2025-07-23"},
   {"description":"Plano de Saúde",        "amount":"30.00","type":"expenses","frequency":"frequently","date":"2025-07-23"},
   {"description":"Compras do mês",        "amount":"70.00","type":"expenses","frequency":"frequently","date":"2025-07-25"},
-  {"description":"Cafeteira",             "amount":"25.00","type":"expenses","frequency":"occasionally",  "date":"2025-07-26"},
+  {"description":"Cafeteira",             "amount":"250.00","type":"expenses","frequency":"occasionally",  "date":"2025-07-26"},
   {"description":"Pizza",                 "amount":"6.00", "type":"expenses","frequency":"occasionally",  "date":"2025-07-19"},
-  {"description":"Energia elétrica",      "amount":"150.55","type":"expenses","frequency":"frequently","date":"2024-08-10"},
 ]
