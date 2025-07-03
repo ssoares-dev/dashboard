@@ -29,7 +29,7 @@ const PieChartsBox: React.FC<IPieChartsProps> = ({ data }) => {
   return (
     <Container>
       <SideLeft>
-        <h2>Analysis</h2>
+        <h2>Análise</h2>
         <LegendContainer>
           {data.map((indicator) => (
             <Legend key={indicator.name} color={indicator.color}>

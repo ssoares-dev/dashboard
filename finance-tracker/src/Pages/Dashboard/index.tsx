@@ -7,6 +7,8 @@ import ContentHeader from "../../components/ContentHeader";
 import WalletBox from "../../components/WalletBox";
 import MessageBox from "../../components/MessageBox";
 import PieChartsBox from "../../components/PieChartBox";
+import HistoryBox from "../../components/HistoryBox";
+import BarChartBox from "../../components/BarChartBox";
 
 import gains from "../../repositories/gains";
 import expenses from "../../repositories/expenses";
@@ -131,6 +133,121 @@ const Dashboard: React.FC = () => {
     return data;
   }, [totalIncome, totalExpenses, theme.colors.secondary, theme.colors.primary]);
 
+  const relationExpenseFrequentlyVersusOccasionally = useMemo(() => {
+    let amountFrequent = 0; 
+    let amountOccasional = 0;
+
+    expenses
+      .filter((expense) => {
+        const date = new Date(expense.date);
+        return (
+          date.getMonth() + 1 === monthSelected &&
+          date.getFullYear() === yearSelected
+        );
+      })
+      .forEach((expense) => {
+        if (expense.frequency === "frequently") {
+          amountFrequent += Number(expense.amount);
+        } else if (expense.frequency === "occasionally") {
+          amountOccasional += Number(expense.amount);
+        }
+      });
+
+    const total = amountFrequent + amountOccasional;
+    const percentFrequent = total === 0 ? 0 : Number(((amountFrequent / total) * 100).toFixed(1));
+    const percentOccasional = total === 0 ? 0 : Number(((amountOccasional / total) * 100).toFixed(1));
+
+    return [
+      {
+        name: 'Frequently',
+        amount: amountFrequent,
+        percent: percentFrequent,
+        color: theme.colors.exit,
+      },
+      {
+        name: 'Occasionally',
+        amount: amountOccasional,
+        percent: percentOccasional,
+        color: theme.colors.primary,
+      }
+    ];
+  }, [monthSelected, yearSelected, theme.colors.primary, theme.colors.exit]);
+
+const relationIncomeFrequentlyVersusOccasionally = useMemo(() => {
+    let amountFrequent = 0; 
+    let amountOccasional = 0;
+
+    gains
+      .filter((gain) => {
+        const date = new Date(gain.date);
+        return (
+          date.getMonth() + 1 === monthSelected &&
+          date.getFullYear() === yearSelected
+        );
+      })
+      .forEach((gain) => {
+        if (gain.frequency === "frequently") {
+          amountFrequent += Number(gain.amount);
+        } else if (gain.frequency === "occasionally") {
+          amountOccasional += Number(gain.amount);
+        }
+      });
+
+    const total = amountFrequent + amountOccasional;
+    const percentFrequent = total === 0 ? 0 : Number(((amountFrequent / total) * 100).toFixed(1));
+    const percentOccasional = total === 0 ? 0 : Number(((amountOccasional / total) * 100).toFixed(1));
+
+    return [
+      {
+        name: 'Frequently',
+        amount: amountFrequent,
+        percent: percentFrequent,
+        color: theme.colors.secondary,
+      },
+      {
+        name: 'Occasionally',
+        amount: amountOccasional,
+        percent: percentOccasional,
+        color: theme.colors.entry,
+      }
+    ];
+  }, [monthSelected, yearSelected, theme.colors.primary, theme.colors.exit]);
+
+  console.log("relationExpenseFrequentlyVersusOccasionally", relationExpenseFrequentlyVersusOccasionally);
+
+  const historyData = useMemo(() => {
+    return months
+      .map((month) => {
+        const monthNumber = Number(month.value);
+        const filteredGains = gains.filter(
+          (gain) =>
+            new Date(gain.date).getMonth() + 1 === monthNumber &&
+            new Date(gain.date).getFullYear() === yearSelected
+        );
+        const filteredExpenses = expenses.filter(
+          (expense) =>
+            new Date(expense.date).getMonth() + 1 === monthNumber &&
+            new Date(expense.date).getFullYear() === yearSelected
+        );
+
+        const amountInput = filteredGains.reduce(
+          (acc, gain) => acc + Number(gain.amount),
+          0
+        );
+        const amountOutput = filteredExpenses.reduce(
+          (acc, expense) => acc + Number(expense.amount),
+          0
+        );
+
+        return {
+          month: month.label.slice(0, 3),
+          amountInput,
+          amountOutput,
+        };
+      })
+      .filter((item) => item.amountInput !== 0 || item.amountOutput !== 0);
+  }, [months, yearSelected]);
+
   return (
     <Container>
       <ContentHeader title="Dashboard" lineColor={theme.colors.dashboard}>
@@ -182,7 +299,10 @@ const Dashboard: React.FC = () => {
         )}
 
         <PieChartsBox data={relationExpenseVersusIncome} />
-      </Content>
+        <HistoryBox data={historyData} lineColorAmountInput={theme.colors.secondary} lineColorAmountOutput={theme.colors.primary} />
+        <BarChartBox title="Income" data={relationIncomeFrequentlyVersusOccasionally}/>
+        <BarChartBox title="Expenses" data={relationExpenseFrequentlyVersusOccasionally}/>
+        </Content>
     </Container>
   );
 };
