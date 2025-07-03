@@ -6,6 +6,7 @@ import SelectInput from "../../components/SelectInput";
 import ContentHeader from "../../components/ContentHeader";
 import WalletBox from "../../components/WalletBox";
 import MessageBox from "../../components/MessageBox";
+import PieChartsBox from "../../components/PieChartBox";
 
 import gains from "../../repositories/gains";
 import expenses from "../../repositories/expenses";
@@ -107,6 +108,29 @@ const Dashboard: React.FC = () => {
     }
   }, [totalBalance]);
 
+  const relationExpenseVersusIncome = useMemo(() => {
+    const total = totalIncome + totalExpenses;
+    const percentIncome = total === 0 ? 0 : Number(((totalIncome / total) * 100).toFixed(1));
+    const percentExpenses = total === 0 ? 0 : Number(((totalExpenses / total) * 100).toFixed(1));
+
+    const data = [
+      {
+        name: "Income",
+        value: totalIncome,
+        percent: percentIncome,
+        color: theme.colors.secondary,
+      },
+      {
+        name: "Expenses",
+        value: totalExpenses,
+        percent: percentExpenses,
+        color: theme.colors.primary,
+      },
+    ];
+
+    return data;
+  }, [totalIncome, totalExpenses, theme.colors.secondary, theme.colors.primary]);
+
   return (
     <Container>
       <ContentHeader title="Dashboard" lineColor={theme.colors.dashboard}>
@@ -156,6 +180,8 @@ const Dashboard: React.FC = () => {
             footerText={message.footerText}
           />
         )}
+
+        <PieChartsBox data={relationExpenseVersusIncome} />
       </Content>
     </Container>
   );
