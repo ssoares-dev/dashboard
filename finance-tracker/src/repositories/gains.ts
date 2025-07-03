@@ -8,4 +8,4 @@ export default [
   { "description": "Salário",     "amount": "2500.18", "type": "income", "frequency": "frequently", "date": "2025-04-10" }, 
   { "description": "Salário",     "amount": "2500.15", "type": "income", "frequency": "frequently", "date": "2025-05-10" }, 
   { "description": "Salário",     "amount": "2500.12", "type": "income", "frequency": "frequently", "date": "2025-06-10" }, 
-  { "description": "Salário",     "amount": "2500.00", "type": "income", "frequency": "frequently", "date": "2025-07-10" }]
+  { "description": "Salário",     "amount": "250.00", "type": "income", "frequency": "frequently", "date": "2025-07-10" }]

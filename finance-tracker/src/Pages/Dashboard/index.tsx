@@ -5,15 +5,22 @@ import { useTheme } from "styled-components";
 import SelectInput from "../../components/SelectInput";
 import ContentHeader from "../../components/ContentHeader";
 import WalletBox from "../../components/WalletBox";
+import MessageBox from "../../components/MessageBox";
 
 import gains from "../../repositories/gains";
 import expenses from "../../repositories/expenses";
 
+import happyImage from "../../utils/assets/good.svg";
+import opsImage from "../../utils/assets/bad.svg";
+import sadImage from "../../utils/assets/sad.svg";
+
 const Dashboard: React.FC = () => {
   const theme = useTheme();
-  
+
   const listData = useMemo(() => {
-    return [...gains, ...expenses].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return [...gains, ...expenses].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
   }, []);
 
   const [monthSelected, setMonthSelected] = useState<number>(
@@ -22,21 +29,17 @@ const Dashboard: React.FC = () => {
   const [yearSelected, setYearSelected] = useState<number>(
     new Date().getFullYear()
   );
-  
+
   const months = useMemo(() => {
-    const uniqueMonths = Array.from(
-      new Set(listData.map((item) => new Date(item.date).getMonth() + 1))
-    );
-    return uniqueMonths.map((month) => {
-      const label = new Date(0, month - 1).toLocaleString("default", {
-        month: "long",
-      });
+    const monthLabels = Array.from({ length: 12 }, (_, i) => {
+      const label = new Date(0, i).toLocaleString("default", { month: "long" });
       return {
-        value: String(month),
+        value: String(i + 1),
         label: label.charAt(0).toUpperCase() + label.slice(1),
       };
     });
-  }, [listData]);
+    return monthLabels;
+  }, []);
 
   const years = useMemo(() => {
     const uniqueYears = Array.from(
@@ -44,6 +47,65 @@ const Dashboard: React.FC = () => {
     );
     return uniqueYears.map((year) => ({ value: year, label: year }));
   }, [listData]);
+
+  const totalExpenses = useMemo(() => {
+    let total: number = 0;
+
+    expenses.forEach((expense) => {
+      const date = new Date(expense.date);
+      if (
+        date.getMonth() + 1 === monthSelected &&
+        date.getFullYear() === yearSelected
+      ) {
+        total += Number(expense.amount);
+      }
+    });
+    return total;
+  }, [monthSelected, yearSelected]);
+
+  const totalIncome = useMemo(() => {
+    let total: number = 0;
+
+    gains.forEach((gain) => {
+      const date = new Date(gain.date);
+      if (
+        date.getMonth() + 1 === monthSelected &&
+        date.getFullYear() === yearSelected
+      ) {
+        total += Number(gain.amount);
+      }
+    });
+    return total;
+  }, [monthSelected, yearSelected]);
+
+  const totalBalance = useMemo(() => {
+    return totalIncome - totalExpenses;
+  }, [totalIncome, totalExpenses]);
+
+  const message = useMemo(() => {
+    if (totalBalance < 0) {
+      return {
+        title: "OHH NOOO!",
+        description: "Your balance is negative",
+        icon: sadImage,
+        footerText: "Check your expenses",
+      };
+    } else if (totalBalance > 0) {
+      return {
+        title: "YAY!",
+        description: "Your balance is positive",
+        icon: happyImage,
+        footerText: "Keep up the good work!",
+      };
+    } else if (totalBalance === 0) {
+      return {
+        title: "Oops!",
+        description: "Your balance is zero",
+        icon: opsImage,
+        footerText: "Try to balance your income and expenses",
+      };
+    }
+  }, [totalBalance]);
 
   return (
     <Container>
@@ -60,27 +122,40 @@ const Dashboard: React.FC = () => {
         />
       </ContentHeader>
       <Content>
-      <WalletBox 
-        title="Balance"
-        amount={150.00}
-        footerlabel={`Referente ao mês de ${months.find(m => m.value === String(monthSelected))?.label} de ${yearSelected}`}
-        icon="dollar"
-        color={theme.colors.tertiary}
-      />
-      <WalletBox 
-        title="Income"
-        amount={150.00}
-        footerlabel={`Referente ao mês de ${months.find(m => m.value === String(monthSelected))?.label} de ${yearSelected}`}
-        icon="arrowUp"
-        color={theme.colors.secondary}
-      />
-      <WalletBox 
-        title="Expenses"
-        amount={150.00}
-        footerlabel={`Referente ao mês de ${months.find(m => m.value === String(monthSelected))?.label} de ${yearSelected}`}
-        icon="arrowDown"
-        color={theme.colors.primary}
-      />
+        <WalletBox
+          title="Balance"
+          amount={totalBalance}
+          footerlabel={`Updated based on income and expenses`}
+          icon="dollar"
+          color={theme.colors.tertiary}
+        />
+        <WalletBox
+          title="Income"
+          amount={totalIncome}
+          footerlabel={`Referente ao mês de ${
+            months.find((m) => m.value === String(monthSelected))?.label
+          } de ${yearSelected}`}
+          icon="arrowUp"
+          color={theme.colors.secondary}
+        />
+        <WalletBox
+          title="Expenses"
+          amount={totalExpenses}
+          footerlabel={`Referente ao mês de ${
+            months.find((m) => m.value === String(monthSelected))?.label
+          } de ${yearSelected}`}
+          icon="arrowDown"
+          color={theme.colors.primary}
+        />
+
+        {message && (
+          <MessageBox
+            title={message.title}
+            icon={message.icon}
+            description={message.description}
+            footerText={message.footerText}
+          />
+        )}
       </Content>
     </Container>
   );
