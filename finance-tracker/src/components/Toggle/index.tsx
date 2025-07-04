@@ -2,18 +2,37 @@ import React, { useState } from "react";
 
 import { Container, ToggleLabel, SwitchStyled } from "./style";
 
-const Toggle: React.FC = () => {
-  const [checked, setChecked] = useState(false);
+interface IToggleProps {
+  labelLeft?: string;
+  labelRight?: string;
+  checked?: boolean;
+  onChange?: () => void;
+}
+
+
+const Toggle: React.FC<IToggleProps> = ({
+  labelLeft = "Light",
+  labelRight = "Dark",
+  checked = false,
+  onChange,
+}) => {
+  // Adapter for SwitchStyled's onChange signature
+  const handleChange = (nextChecked: boolean, event: any, id: string) => {
+    if (onChange) {
+      onChange();
+    }
+  };
+
   return (
     <Container>
-      <ToggleLabel>Light</ToggleLabel>
+      <ToggleLabel>{labelLeft}</ToggleLabel>
       <SwitchStyled
-        onChange={() => setChecked(!checked)}
+        onChange={handleChange}
         checked={checked}
         uncheckedIcon={false}
         checkedIcon={false}
       />
-      <ToggleLabel>Dark</ToggleLabel>
+      <ToggleLabel>{labelRight}</ToggleLabel>
     </Container>
   );
 };

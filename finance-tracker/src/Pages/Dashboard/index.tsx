@@ -86,29 +86,36 @@ const Dashboard: React.FC = () => {
   }, [totalIncome, totalExpenses]);
 
   const message = useMemo(() => {
-    if (totalBalance < 0) {
-      return {
-        title: "OHH NOOO!",
-        description: "Your balance is negative",
-        icon: sadImage,
-        footerText: "Check your expenses",
-      };
-    } else if (totalBalance > 0) {
-      return {
-        title: "YAY!",
-        description: "Your balance is positive",
-        icon: happyImage,
-        footerText: "Keep up the good work!",
-      };
-    } else if (totalBalance === 0) {
-      return {
-        title: "Oops!",
-        description: "Your balance is zero",
-        icon: opsImage,
-        footerText: "Try to balance your income and expenses",
-      };
-    }
-  }, [totalBalance]);
+  if (totalIncome === 0 && totalExpenses === 0) {
+    return {
+      title: "Can´t do Magic",
+      description: "No data available for the selected month and year",
+      icon: opsImage,
+      footerText: "Please select a different month or year",
+    };
+  } else if (totalBalance < 0) {
+    return {
+      title: "OHH NOOO!",
+      description: "Your balance is negative",
+      icon: sadImage,
+      footerText: "Check your expenses",
+    };
+  } else if (totalBalance > 0) {
+    return {
+      title: "YAY!",
+      description: "Your balance is positive",
+      icon: happyImage,
+      footerText: "Keep up the good work!",
+    };
+  } else if (totalBalance === 0) {
+    return {
+      title: "Oops!",
+      description: "Your balance is zero",
+      icon: opsImage,
+      footerText: "Try to balance your income and expenses",
+    };
+  }
+}, [totalBalance, totalIncome, totalExpenses]);
 
   const relationExpenseVersusIncome = useMemo(() => {
     const total = totalIncome + totalExpenses;
@@ -201,13 +208,13 @@ const relationIncomeFrequentlyVersusOccasionally = useMemo(() => {
       {
         name: 'Frequently',
         amount: amountFrequent,
-        percent: percentFrequent,
+        percent: percentFrequent ? percentFrequent : 0,
         color: theme.colors.secondary,
       },
       {
         name: 'Occasionally',
         amount: amountOccasional,
-        percent: percentOccasional,
+        percent: percentOccasional ? percentOccasional : 0,
         color: theme.colors.entry,
       }
     ];

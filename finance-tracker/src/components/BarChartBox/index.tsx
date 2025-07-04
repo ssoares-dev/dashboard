@@ -34,7 +34,7 @@ const BarChartBox: React.FC<IBarChartProps> = ({title, data}) => {
       <SideRight>
         <ResponsiveContainer>
             <BarChart data={data}>
-                <Tooltip formatter={formatCurrency} />
+                <Tooltip formatter={formatCurrency} cursor={{fill: 'none'}} />
                 <Bar dataKey="amount">
                 {data.map((indicator) => (
                     <Cell key={indicator.name} fill={indicator.color} />
