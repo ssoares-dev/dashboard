@@ -1,6 +1,6 @@
 import { title } from "process";
 
-export default {
+const lightTheme = {
     title: "light",
     colors: {
         back: "#F5F5F5",
@@ -19,7 +19,9 @@ export default {
         entry: "#874583",
         exit: "#C35B87",
         register: "#6D446B",
-        gradient : "radial-gradient(90deg, #C1A0BF 54%, #B73E71 100%)",
+        gradient : "radial-gradient(circle at 50% 50%, #C1A0BF 54%, #B73E71 100%)",
     },
 
 };
+
+export default lightTheme;

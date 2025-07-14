@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Container,
   Header,
@@ -6,22 +6,61 @@ import {
   Title,
   MenuContainer,
   MenuItemLink,
+  MenuItemButton,
+  ToggleMenu,
+  ThemeToggleFooter,
 } from "./styles";
-import { useTheme } from "styled-components";
+
 import {
   MdDashboard,
   MdExitToApp,
   MdAccountBalanceWallet,
   MdPayment,
   MdReceipt,
+  MdClose,
+  MdMenu,
 } from "react-icons/md";
 
+import { useAuth } from "../../hooks/auth";
+import { useTheme } from "../../hooks/theme";
+
+import Toggle from "../Toggle";
+
 const Aside: React.FC = () => {
-  const theme = useTheme();
+  const { toggleTheme, theme } = useTheme();
+
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    window.location.replace("/");
+    logout();
+  }
+
+  const handleToggleMenu = () => {
+    setToggleMenuIsOpened(!toggleMenuIsOpened);
+  }
+
+  const handleChangeTheme = () => {
+    toggleTheme();
+    setDarkTheme(!darkTheme);
+  }
+
+  const [toggleMenuIsOpened, setToggleMenuIsOpened] = useState(false);
+  const [darkTheme, setDarkTheme] = useState(() => theme.title === "dark" ? true : false);
 
   return (
-    <Container>
+    <Container isOpen={toggleMenuIsOpened}>
       <Header>
+        <ToggleMenu onClick={handleToggleMenu}>
+          {toggleMenuIsOpened ? (
+            <MdClose
+            />
+          ) : (
+            <MdMenu
+            />
+          )}
+        </ToggleMenu>
+
         <LogImg
           src={"../assets/app-icon.svg"}
           alt="Logo Finance Tracker"
@@ -46,11 +85,20 @@ const Aside: React.FC = () => {
           <MdReceipt />
           Expenses
         </MenuItemLink>
-        <MenuItemLink href="#" activecolor={theme.colors.exit}>
+        <MenuItemButton onClick={handleLogout} activecolor={theme.colors.exit}>
           <MdExitToApp />
           Exit
-        </MenuItemLink>
+        </MenuItemButton>
       </MenuContainer>
+
+      <ThemeToggleFooter isOpen={toggleMenuIsOpened}>
+        <Toggle
+          labelLeft="Light"
+          labelRight="Dark"
+          checked={darkTheme}
+          onChange={handleChangeTheme}
+        />
+      </ThemeToggleFooter>
     </Container>
   );
 };

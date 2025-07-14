@@ -1,8 +1,22 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 interface ILegendProps {
   color: string;
 }
+
+const animate = keyframes`
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  } 
+  50% {
+    opacity: .3;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+`;
 
 export const Container = styled.div`
   width: 48%;
@@ -16,13 +30,40 @@ export const Container = styled.div`
   border-radius: 7px;
 
   display: flex;
+
+  animation: ${animate} 0.5s;
+
+  @media (max-width: 770px) {
+    display: flex;
+    width: 100%;
+  }
+  @media (max-width: 420px) {
+    display: flex;
+    width: 100%;
+  }
 `;
 
 export const SideLeft = styled.aside`
-  padding: 30px 36px;
+  padding: 30px 20px;
 
   > h2 {
     margin-bottom: 20px;
+  }
+
+  @media (max-width: 1345px) {
+    padding: 0  15px 5px;
+    margin-bottom: 7px;
+
+    > h2 {
+      margin-bottom: 7px;
+      margin-top: 15px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    padding: 10px;
+    margin-bottom: 7px;
+    
   }
 `;
 
@@ -32,11 +73,16 @@ export const LegendContainer = styled.ul`
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 16px;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
     
     &::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
+        display: none; 
+    }
+
+    @media (max-width: 1345px) {
+      display: flex;
+      flex-direction: column;
     }
 `;
 
@@ -58,10 +104,29 @@ export const Legend = styled.li<ILegendProps>`
   > span {
     margin-left: 5px;
   }
+
+  @media (max-width: 1345px) {
+
+    font-size: 14px;
+    margin: 3px 0;
+
+    > div {
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+    }
+    > span {
+      margin-left: 7px;
+    }
+  }
 `;
 
 export const SideRight = styled.main`
-display: flex;
-flex: 1;
-justify-content: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+
+  @media (max-width: 1345px) {
+    height: 100%;
+  }
 `;

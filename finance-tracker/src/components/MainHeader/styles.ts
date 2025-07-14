@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import ToggleComponent from "../Toggle";
+
 export const Container = styled.div`
   grid-area: MH;
   background-color: ${(props) => props.theme.colors.backie};
@@ -35,4 +37,7 @@ export const WelcomeWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: end;
+`;
+
+export const Toggle = styled(ToggleComponent)`
 `;

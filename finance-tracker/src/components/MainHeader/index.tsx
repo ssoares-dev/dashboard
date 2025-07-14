@@ -6,11 +6,10 @@ import {
   Username,
   WelcomeWrapper,
   Emoji,
+  Toggle,
 } from "./styles";
 
 import { useTheme } from "../../hooks/theme";
-
-import Toggle from "../Toggle";
 
 import emojis from "../../utils/emojis";
 

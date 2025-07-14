@@ -19,7 +19,7 @@ export default {
         entry: "#874583",
         exit: "#C35B87",
         register: "#FFDDFC",
-        gradient : "radial-gradient(90deg, #C1A0BF 54%, #B73E71 100%)",
+        gradient : "radial-gradient(circle at 50% 50%, #C1A0BF 54%, #B73E71 100%)",
     },
 
 };
